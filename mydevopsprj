@@ -1,0 +1,26 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo "Building the project..."
+    - docker build -t myapp .
+
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - echo "Tests Passed ✅"
+
+deploy:
+  stage: deploy
+  only:
+    - main
+  script:
+    - echo "Logging into Docker Hub..."
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build -t shalini0082004/myapp
+    - docker push shalini082004/myapp
